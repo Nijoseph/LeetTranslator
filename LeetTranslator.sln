@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.7.34018.315
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LeetTranslator", "LeetTranslator\LeetTranslator.csproj", "{88A23753-CCEE-40BB-86D4-A7A8E8AC633C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{88A23753-CCEE-40BB-86D4-A7A8E8AC633C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{88A23753-CCEE-40BB-86D4-A7A8E8AC633C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{88A23753-CCEE-40BB-86D4-A7A8E8AC633C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{88A23753-CCEE-40BB-86D4-A7A8E8AC633C}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {09141313-2360-434F-95B8-A794E1351BD3}
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,25 @@
+﻿@{
+    ViewData["Title"] = "Restricted Page";
+}
+
+<h2>Restricted Area</h2>
+
+<p>Welcome to the restricted area! Only certain users have access to this page.</p>
+
+<p>
+    If you've reached this page, it means you've been granted access. Explore the exclusive content below.
+</p>
+
+<!-- Exclusive content can go here. For instance: -->
+<div>
+    <h3>Exclusive Articles:</h3>
+    <ul>
+        <li><a href="#">The History of Leet Translator</a></li>
+        <li><a href="#">Advanced Techniques in Leet Translation</a></li>
+        <li><a href="#">Future of Leet Language</a></li>
+    </ul>
+</div>
+
+<p>
+    <a href="@Url.Action("Index", "Home")">Return to homepage</a>
+</p>

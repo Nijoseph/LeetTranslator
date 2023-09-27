@@ -1,0 +1,22 @@
+﻿@using Microsoft.AspNetCore.Diagnostics
+
+@{
+    ViewData["Title"] = "Error";
+}
+
+<h1 class="text-danger">Error.</h1>
+<h2 class="text-danger">An error occurred while processing your request.</h2>
+
+@if (Context.Features.Get<IExceptionHandlerFeature>()?.Error is Exception ex)
+{
+    <div class="alert alert-danger">
+        <h4 class="alert-heading">Error Details:</h4>
+        <p>@ex.Message</p>
+        <hr>
+        <p class="mb-0">Please contact the administrator if this issue persists.</p>
+    </div>
+}
+
+<p>
+    <a href="@Url.Action("Index", "Home")">Go back to homepage</a>
+</p>

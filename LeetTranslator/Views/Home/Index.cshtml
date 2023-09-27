@@ -1,0 +1,177 @@
+﻿@{
+    ViewData["Title"] = "Leet Translator";
+}
+
+<h2>@ViewData["Title"]</h2>
+<div class="modal fade" id="addTranslationModal" tabindex="-1" role="dialog" aria-labelledby="addTranslationModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addTranslationModalLabel">Add a Translation</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="addTranslationForm">
+                    <div class="form-group">
+                        <label for="translationType">Translation Type</label>
+                        <select class="form-control" id="translationType" name="translationType">
+                            <!-- This should be populated dynamically -->
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="originalText">Original Text</label>
+                        <textarea class="form-control" id="originalText" name="originalText" rows="3"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="TranslatedText">Translated Text</label>
+                        <textarea class="form-control" id="TranslatedText" rows="3" readonly></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" id="translateButton">Translate</button>
+                <button type="button" class="btn btn-success" id="saveTranslationButton" disabled>Save</button>
+
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@if ( User.Identity.IsAuthenticated )
+{
+    <div id="translationDataSection">
+        <table id="translationsTable" class="display" style="width:100%">
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Type</th>
+                    <th>Original Text</th>
+                    <th>Translated Text</th>
+                </tr>
+            </thead>
+        </table>
+    </div>
+
+    if ( User.IsInRole("Admin") )
+    {
+        <p>You have admin privileges! Access more features.</p>
+    }
+    else
+    {
+        <p>You have user privileges! Access limited features.</p>
+    }
+}
+else
+{
+    <p>Please <a asp-controller="Home" asp-action="Login">login</a> or <a asp-controller="Home" asp-action="Register">register</a> to access the Leet translator.</p>
+}
+
+@section Scripts {
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#translationsTable').DataTable({
+                "ajax": {
+                    "url": "@Url.Action("GetAllTranslationsForDataTable", "Home")",
+                    "type": "GET",
+                    "datatype": "json",
+                    "dataSrc": "listOfTranslations"
+                },
+                "columns": [
+                    {
+                        "data": "date",
+                        "name": "Date",
+                        "title": "Date",
+                        "render": function (data) {
+                            var date = new Date(data);
+                            var monthNames = [
+                                "January", "February", "March", "April", "May", "June",
+                                "July", "August", "September", "October", "November", "December"
+                            ];
+                            return date.getDate() + ' ' + monthNames[date.getMonth()] + ' ' + date.getFullYear();
+                        }
+
+                    },
+                    { "data": "firstName", "name": "FirstName", "title": "First Name" },
+                    { "data": "lastName", "name": "LastName", "title": "Last Name" },
+                    { "data": "typeName", "name": "TypeName", "title": "Type" },
+                    { "data": "originalText", "name": "OriginalText", "title": "Original Text" },
+                    { "data": "translatedText", "name": "TranslatedText", "title": "Translated Text" }
+                ]
+            });
+
+            $('#addTranslationButton').click(function () {
+                $('#addTranslationModal').modal('show');
+            });
+
+
+            $('#translateButton').click(function () {
+                const originalText = $('#originalText').val();
+
+                // Ensure there's text to translate
+                if (!originalText.trim()) {
+                    alert('Please enter some text to translate.');
+                    return;
+                }
+                // Initially disable the "Save" button
+                $('#saveTranslationButton').prop('disabled', true);
+                // Show a loading indicator (optional but can enhance UX)
+                $('#translateButton').text('Translating...').prop('disabled', true);
+
+                $.ajax({
+                    url: "@Url.Action("TranslateMethod", "Home")",
+                    method: "POST",
+                    data: { textToTranslate: originalText },
+                    success: function (response) {
+                        // Re-enable the Translate button and update its text
+                        $('#translateButton').text('Translate').prop('disabled', false);
+
+                        if (response.success) {
+                            $('#TranslatedText').val(response.translatedText);
+                            $('#saveTranslationButton').prop('disabled', false); // Enable the "Save" button
+
+                        } else {
+                            alert(response.message || 'Unexpected response from the server. Translation may have failed.');
+                            $('#saveTranslationButton').prop('disabled', true);
+
+                        }
+                    },
+                    error: function (error) {
+                        // Re-enable the Translate button and update its text in case of error
+                        $('#translateButton').text('Translate').prop('disabled', false);
+                        alert('Error translating the text. Please try again.');
+                 
+                        $('#translateButton').text('Translate').prop('disabled', false);
+                    }
+                });
+            });
+
+            $('#TranslatedText').on('input', function () {
+                var translatedTextValue = $(this).val().trim();
+
+                if (translatedTextValue === '') {
+                    $('#saveTranslationButton').prop('disabled', true);
+                } else {
+                    $('#saveTranslationButton').prop('disabled', false);
+                }
+            });
+            $('.close, #closeButton').click(function () {
+                // Clear the input fields
+                $('#originalText').val('');
+                $('#TranslatedText').val('');
+                $('#translationType').val(''); // If there's a default value for this dropdown, you might want to set it here
+                $('#saveTranslationButton').prop('disabled', true);  // Disable the "Save" button
+            });
+            $('#saveTranslationButton').click(function () {
+                var formData = $('#addTranslationForm').serialize(); // This collects the form data
+                // AJAX call to save the translation, passing formData as the data.
+            });
+
+        });
+
+    </script>
+}

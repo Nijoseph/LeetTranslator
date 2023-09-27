@@ -1,0 +1,71 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - LeetTranslator</title>
+
+    <!-- Fonts and Icons -->
+    <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Open+Sans'>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+
+    <!-- DataTables CSS -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/fixedheader/3.3.1/css/fixedHeader.dataTables.css">
+
+    <!-- W3 Schools CSS -->
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://www.w3schools.com/lib/w3-theme-blue-grey.css">
+
+    <!-- Site CSS -->
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+
+    <!-- jQuery Library -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <!-- Bootstrap JS -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
+    <!-- DataTables JS -->
+    <script type="text/javascript" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap5.min.js"></script>
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/fixedheader/3.3.1/js/dataTables.fixedHeader.js"></script>
+
+    <!-- W3 JS -->
+    <script src="https://www.w3schools.com/lib/w3.js"></script>
+
+</head>
+
+<body class="w3-container">
+    <div class="w3-bar w3-border w3-light-grey">
+        @if ( User.Identity.IsAuthenticated )
+        {
+            <span class="w3-bar-item w3-text-green">@User.Identity.Name</span>
+            <button type="button" class="btn btn-primary" id="addTranslationButton">Add Translation</button>
+
+            <form method="post" asp-controller="Home" asp-action="Logout" class="w3-bar-item w3-button w3-right w3-border">
+                <input type="submit" value="Logout" class="w3-button w3-red" />
+            </form>
+        }
+        else
+        {
+            <a class="w3-bar-item w3-button w3-right" asp-controller="Home" asp-action="Login">Login</a>
+            <a class="w3-bar-item w3-button w3-right" asp-controller="Home" asp-action="Register">Register</a>
+        }
+    </div>
+    <div class="w3-container">
+        <!-- Your main content goes here -->
+        @RenderBody()
+    </div>
+
+    <!-- Site JS -->
+    <script src="~/js/site.js" asp-append-version="true"></script>
+
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+
+</html>
