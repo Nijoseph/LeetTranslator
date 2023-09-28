@@ -16,12 +16,3 @@ html {
 body {
   margin-bottom: 60px;
 }
-table.dataTable thead {
-    background-color: #f5f5f5; /* Gray background */
-    color: #333; /* Dark text color */
-}
-
-    table.dataTable thead th {
-        text-align: center; /* Center the header content */
-        padding: 10px; /* Add padding */
-    }
