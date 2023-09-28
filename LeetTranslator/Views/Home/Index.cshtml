@@ -84,7 +84,7 @@
 @if ( User.Identity.IsAuthenticated )
 {
     <div id="translationDataSection">
-        <table id="translationsTable" class="display" style="width:100%">
+        <table id="translationsTable" class="table" style="width:100%">
             <thead>
                 <tr>
                     <th>Date</th>
@@ -149,7 +149,8 @@ else
             });
 
             // Add custom button to the header
-            $("#translationsTable_wrapper .dataTables_filter").append('<button type="button" class="btn btn-primary" id="addTranslationButton">Add Translation</button>');
+            $("#translationsTable_wrapper .dataTables_filter")
+            .append('<button type="button" class="btn btn-primary" id="addTranslationButton">Add Translation</button>');
 
             $("#addTranslationButton").css({
                 "margin": "10px",  // adjust this value as needed
