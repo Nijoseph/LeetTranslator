@@ -60,13 +60,13 @@ builder.Services.AddScoped<INotificationDataServices>(provider =>
     return new NotificationDataServices(connectionString);
 });
 
-builder.Services.AddScoped<IFunTranslationsService>(provider =>
-{
-    var configuration = provider.GetRequiredService<IConfiguration>();
-    var apiKey = configuration["FunTranslationsApiKey"];
-    var apiUrl = configuration["FunTranslationsApiUrl"];
-    return new FunTranslationsService(apiKey, apiUrl);
-});
+//builder.Services.AddScoped<IFunTranslationsService>(provider =>
+//{
+//    var configuration = provider.GetRequiredService<IConfiguration>();
+//    var apiKey = configuration["FunTranslationsApiKey"];
+//    var apiUrl = configuration["FunTranslationsApiUrl"];
+//    return new FunTranslationsService(apiKey, apiUrl);
+//});
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -87,6 +87,6 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+    pattern: "{controller=Home}/{action=Index}/");
 
 app.Run();

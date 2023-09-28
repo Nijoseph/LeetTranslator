@@ -1,4 +1,6 @@
-﻿<!DOCTYPE html>
+﻿@using System.Security.Claims
+
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -44,8 +46,15 @@
     <div class="w3-bar w3-border w3-light-grey">
         @if ( User.Identity.IsAuthenticated )
         {
-            <span class="w3-bar-item w3-text-green">@User.Identity.Name</span>
+            var username = User.FindFirstValue("UserName");
+            var fName = User.FindFirstValue("FirstName");
+            var lName = User.FindFirstValue("LastName");
+
+            <span class="w3-bar-item w3-text-green">@lName @fName</span>
             <button type="button" class="btn btn-primary" id="addTranslationButton">Add Translation</button>
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#translationTypeModal">
+                Add Translation Type
+            </button>
 
             <form method="post" asp-controller="Home" asp-action="Logout" class="w3-bar-item w3-button w3-right w3-border">
                 <input type="submit" value="Logout" class="w3-button w3-red" />
