@@ -2,7 +2,7 @@
     ViewData["Title"] = "Leet Translator";
 }
 
-<h2>@ViewData["Title"]</h2>
+
 <div class="modal fade" id="addTranslationModal" tabindex="-1" role="dialog" aria-labelledby="addTranslationModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -109,7 +109,13 @@
 }
 else
 {
+    <div class="alert alert-success">
+    <p>
+        Leet Translator project for AFS .NET Developer Test. it hasData table  for records with search and filter options as it is required,
+        it Use Ajax and JQuery and stored procedures to select ans save data in database
+    </p>
     <p>Please <a asp-controller="Home" asp-action="Login">login</a> or <a asp-controller="Home" asp-action="Register">register</a> to access the Leet translator.</p>
+</div>
 }
 
 @section Scripts {
@@ -148,6 +154,15 @@ else
                     { "data": "translatedText", "name": "TranslatedText", "title": "Translated Text" }
                 ]
             });
+
+            // Add custom button to the header
+            $("#translationsTable_wrapper .dataTables_filter").append('<button type="button" class="btn btn-primary" id="addTranslationButton">Add Translation</button>');
+
+            // Handle button click event
+            $(document).on('click', '#customButton', function () {
+                alert('Button clicked!');
+            });
+
             $('#saveTranslationTypeButton').click(function () {
                 var formData = {
                     TypeName: $('#typeName').val(),
@@ -252,9 +267,55 @@ else
 
         // Handle saving the translation
         function handleSaveTranslation() {
+            // Prepare the data
+            var formData1 = {
+                OriginalText: $('#originalText').val(),
+                TranslatedText: $('#TranslatedText').val(),
+                TranslationTypeId: $('#translationType').val()
+            };
             var formData = $('#addTranslationForm').serialize();
-            // AJAX call to save the translation, passing formData as the data.
+            console.log("formData:", formData);
+            console.log("formData1:", formData1);
+
+            // 1. AJAX Request
+            $.ajax({
+                url: "/Home/SaveTranslation",
+                method: "POST",
+                data: formData1,
+                success: function (response) {
+                    // 2. Handle Server Response
+                    if (response.success) {
+                        alert('Successfully saved!');
+
+                        // Refresh the translations table
+                        $('#translationsTable').DataTable().ajax.reload();
+
+                        // Close the modal and reset form values
+                        $('#addTranslationModal').modal('hide');
+                        $('#originalText').val('');
+                        $('#TranslatedText').val('');
+                    } else {
+                        var errorMessage = response.message;
+
+                        // If there are model validation errors, append them to the error message
+                        if (response.errors) {
+                            errorMessage += "\n";
+                            $.each(response.errors, function (key, value) {
+                                errorMessage += key + ": " + value.join(", ") + "\n";
+                            });
+                        }
+
+                        alert(errorMessage);
+                    }
+                },
+                error: function () {
+                    // 3. Handle AJAX Errors
+                    alert('Error saving the translation. Please try again.');
+                }
+            });
         }
+
+
 
         // Function to populate translation types in the dropdown
         function populateTranslationTypes() {

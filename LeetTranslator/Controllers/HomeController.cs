@@ -50,6 +50,37 @@ namespace LeetTranslator.Controllers
             }
             return View(viewModel); // We can still pass an empty viewModel to the view
         }
+        [HttpPost]
+        public async Task<IActionResult> SaveTranslation (Translation translation)
+        {
+            // 1. Model Validation
+            if ( !ModelState.IsValid )
+            {
+                var errors = ModelState
+                    .Where(x => x.Value.Errors.Count > 0)
+                    .ToDictionary(k => k.Key, v => v.Value.Errors.Select(e => e.ErrorMessage).ToArray());
+
+                return Json(new { success = false, message = "There were validation errors.", errors = errors });
+            }
+
+            // 2. Saving Data
+            try
+            {
+                translation.UserId = int.Parse(User.FindFirstValue("UserId"));
+                translation.Date= DateTime.Now;
+                translation.IsDeleted = false;
+                int newTranslationId = await _translationDataServices.InsertTranslationAsync(translation);
+
+                // Handle success
+                return Json(new { success = true });
+            }
+            catch(Exception ex)
+            {
+                // Handle exceptions
+                return Json(new { success = false, message = $"An error occurred while saving the translation. Error: {ex.Message}" });
+            }
+        }
+
         [HttpGet]
         public async Task<IActionResult> GetAll ()
         {
