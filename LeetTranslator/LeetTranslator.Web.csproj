@@ -7,9 +7,14 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Dapper" Version="2.0.151" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageReference Include="System.Data.SqlClient" Version="4.8.5" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\LeetTranslator.ApiIntegration\LeetTranslator.ApiIntegration.csproj" />
+    <ProjectReference Include="..\LeetTranslator.Core\LeetTranslator.Core.csproj" />
+    <ProjectReference Include="..\LeetTranslator.Services\LeetTranslator.Services.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,4 +1,4 @@
-﻿namespace LeetTranslator.Models
+﻿namespace LeetTranslator.ApiIntegration
 {
     public class FunTranslationsResponse
     {

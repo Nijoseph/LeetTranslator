@@ -11,6 +11,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using LeetTranslator.Services.Interfaces;
 using LeetTranslator.Services;
+using LeetTranslator.ApiIntegration;
 
 namespace LeetTranslator.Controllers
 {

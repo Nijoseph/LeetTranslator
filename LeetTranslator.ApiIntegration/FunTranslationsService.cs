@@ -1,8 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System.Text;
-using LeetTranslator.Models;
 
-namespace LeetTranslator.Services
+namespace LeetTranslator.ApiIntegration
 {
 
     public class FunTranslationsService : IFunTranslationsService
@@ -11,14 +10,14 @@ namespace LeetTranslator.Services
         private readonly HttpClient httpClient;
         private readonly string apiUrl;
 
-        public FunTranslationsService (string apiKey, string apiUrl)
+        public FunTranslationsService(string apiKey, string apiUrl)
         {
             this.apiKey = apiKey ?? throw new ArgumentNullException(nameof(apiKey));
-            this.httpClient = new HttpClient();
+            httpClient = new HttpClient();
             this.apiUrl = apiUrl ?? throw new ArgumentNullException(nameof(apiUrl));
         }
 
-        public async Task<FunTranslationsResponse> Translate (string text)
+        public async Task<FunTranslationsResponse> Translate(string text)
         {
             try
             {
@@ -29,7 +28,7 @@ namespace LeetTranslator.Services
 
                 HttpResponseMessage response = await httpClient.PostAsync(apiUrl, content);
 
-                if ( response.IsSuccessStatusCode )
+                if (response.IsSuccessStatusCode)
                 {
                     string responseContent = await response.Content.ReadAsStringAsync();
                     FunTranslationsResponse translationResponse = JsonConvert.DeserializeObject<FunTranslationsResponse>(responseContent);
@@ -41,7 +40,7 @@ namespace LeetTranslator.Services
                     throw new HttpRequestException($"Error: {response.StatusCode}");
                 }
             }
-            catch ( Exception ex )
+            catch (Exception ex)
             {
                 throw new Exception($"Error: {ex.Message}");
             }
