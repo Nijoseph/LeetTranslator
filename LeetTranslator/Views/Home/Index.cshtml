@@ -196,9 +196,8 @@ else
                 <p class="mb-0">Date: ${data.date}</p> <!-- Assuming date property exists in your data object -->
             </div>
         `;
-
-                // Set the modal content
-                $('.modal-content').html(modalContent);
+                $('#detailsContent').html(modalContent);
+                $('#viewDetailsModal').modal('show');
 
 
 
@@ -250,8 +249,13 @@ else
                 });
             });
 
+            // Code for addTranslationModal
             $('#addTranslationButton').click(function () {
                 $('#addTranslationModal').modal('show');
+            });
+
+            $('#viewDetailsModal').click(function () {
+                $('#viewDetailsModal').modal('show');
             });
 
             $("#translationType").on('change', function () {
