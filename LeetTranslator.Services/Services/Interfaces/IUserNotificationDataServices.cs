@@ -1,4 +1,4 @@
-﻿using LeetTranslator.Models;
+﻿using LeetTranslator.Core.Models;
 
 public interface IUserNotificationDataServices
 {

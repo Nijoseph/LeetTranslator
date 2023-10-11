@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using LeetTranslator.Services.Interfaces;
-using LeetTranslator.Models;
+using LeetTranslator.Core.Models;
 
 namespace LeetTranslator.Controllers
 {
@@ -10,27 +10,27 @@ namespace LeetTranslator.Controllers
     {
         private readonly ITranslationDataServices _translationDataService;
 
-        public TranslationController (ITranslationDataServices translationDataService)
+        public TranslationController(ITranslationDataServices translationDataService)
         {
             _translationDataService = translationDataService;
         }
 
-        public async Task<IActionResult> Index ()
+        public async Task<IActionResult> Index()
         {
             var translations = await _translationDataService.GetAllTranslationsAsync();
-            return View(translations); // Ensure you have an Index view setup to display translations.
+            return View(translations);
         }
 
         [HttpGet]
-        public IActionResult Create ()
+        public IActionResult Create()
         {
-            return View(); // Return a view to create a new translation
+            return View();
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create (Translation translation)
+        public async Task<IActionResult> Create(Translation translation)
         {
-            if ( ModelState.IsValid )
+            if (ModelState.IsValid)
             {
                 await _translationDataService.InsertTranslationAsync(translation);
                 return RedirectToAction("Index");
@@ -39,20 +39,16 @@ namespace LeetTranslator.Controllers
             return View(translation);
         }
 
-        // Implement other necessary actions for update, delete, etc. as needed.
-
-        // AJAX endpoint for DataTables
         [HttpGet("api/translations")]
-        public async Task<IActionResult> GetTranslationsForDataTable ()
+        public async Task<IActionResult> GetTranslationsForDataTable()
         {
             try
             {
                 var translations = await _translationDataService.GetAllTranslationsAsync();
                 return Json(new { data = translations });
             }
-            catch ( Exception ex )
+            catch (Exception ex)
             {
-                // Log or handle the exception as needed
                 return BadRequest(ex.Message);
             }
         }

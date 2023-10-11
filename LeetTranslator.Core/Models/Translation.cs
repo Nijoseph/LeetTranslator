@@ -1,4 +1,4 @@
-﻿namespace LeetTranslator.Models
+﻿namespace LeetTranslator.Core.Models
 {
     public class Translation
     {

@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 
-namespace LeetTranslator.Models
+namespace LeetTranslator.Core.Models
 {
 
     public class UserAccount
@@ -23,7 +23,7 @@ namespace LeetTranslator.Models
         public ICollection<Translation> Translations { get; set; }
         public ICollection<UserNotification> UserNotifications { get; set; }
         public ICollection<UserActivity> UserActivities { get; set; }
-        public UserAccountDetails ()
+        public UserAccountDetails()
         {
             Translations = new List<Translation>();
             UserNotifications = new List<UserNotification>();

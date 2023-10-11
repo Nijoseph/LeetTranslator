@@ -36,7 +36,18 @@
 
     <!-- W3 JS -->
     <script src="https://www.w3schools.com/lib/w3.js"></script>
+    <style>
+        .My_container {
+            width: 90%;
+            margin: 0 auto; 
+        }
 
+        #viewDetailsModal {
+            width: 60%;
+            margin: 0 auto; 
+        }
+
+    </style>
 </head>
 
 <body>
@@ -81,10 +92,12 @@
     }
 
     <div class="container-fluid" style="margin-top:30px">
-        <div class="container">
+       <div class="row">
+            <div class="My_container">
 
-            @RenderBody()
-        </div>
+                @RenderBody()
+            </div>
+       </div>
        
     </div>
     

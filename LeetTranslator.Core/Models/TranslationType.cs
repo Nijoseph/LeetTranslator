@@ -1,4 +1,4 @@
-﻿namespace LeetTranslator.Models
+﻿namespace LeetTranslator.Core.Models
 {
     public class TranslationType
     {
@@ -12,8 +12,9 @@
     public class TranslationType4View : TranslationType
     {
         public ICollection<Translation> Translations { get; set; }
-        public TranslationType4View() { 
-                    Translations= new List<Translation>();
+        public TranslationType4View()
+        {
+            Translations = new List<Translation>();
         }
     }
 

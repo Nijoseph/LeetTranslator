@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LeetTranslator.Services", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LeetTranslator.ApiIntegration", "LeetTranslator.ApiIntegration\LeetTranslator.ApiIntegration.csproj", "{AC221AEE-00F9-428E-8FB3-9EECFA13A47A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LeetTranslator.Tests", "LeetTranslator.Tests\LeetTranslator.Tests.csproj", "{A129B4F3-2FBD-4FF8-9B04-F0807EA8B964}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{AC221AEE-00F9-428E-8FB3-9EECFA13A47A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AC221AEE-00F9-428E-8FB3-9EECFA13A47A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AC221AEE-00F9-428E-8FB3-9EECFA13A47A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A129B4F3-2FBD-4FF8-9B04-F0807EA8B964}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A129B4F3-2FBD-4FF8-9B04-F0807EA8B964}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A129B4F3-2FBD-4FF8-9B04-F0807EA8B964}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A129B4F3-2FBD-4FF8-9B04-F0807EA8B964}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,5 +1,5 @@
 ﻿using Dapper;
-using LeetTranslator.Models;
+using LeetTranslator.Core.Models;
 using LeetTranslator.Services.Interfaces;
 using System;
 using System.Collections.Generic;

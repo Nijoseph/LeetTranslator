@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace LeetTranslator.Models
+namespace LeetTranslator.Core.Models.ViewModels
 {
 
     public class LoginViewModel

@@ -4,8 +4,8 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Threading.Tasks;
-using LeetTranslator.Models;
 using LeetTranslator.Services.Interfaces;
+using LeetTranslator.Core.Models;
 
 namespace LeetTranslator.Services.Implementations
 {

@@ -4,15 +4,14 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Threading.Tasks;
-using LeetTranslator.Models;
 using LeetTranslator.Services.Interfaces;
+using LeetTranslator.Core.Models;
 
 namespace LeetTranslator.Services.Implementations
 {
     public class TranslationDataServices : ITranslationDataServices
     {
         private readonly string _connectionString;
-        public IEnumerable<TranslationView> ListOfTranslations { get; set; }
         public int TotalCount { get; set; }
         public TranslationDataServices(string connectionString)
         {

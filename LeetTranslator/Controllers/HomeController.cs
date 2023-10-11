@@ -1,5 +1,4 @@
-﻿using LeetTranslator.Models;
-using LeetTranslator.Services.Implementations;
+﻿using LeetTranslator.Services.Implementations;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -12,6 +11,9 @@ using System.Threading.Tasks;
 using LeetTranslator.Services.Interfaces;
 using LeetTranslator.Services;
 using LeetTranslator.ApiIntegration;
+using LeetTranslator.Core.Models.ViewModels;
+using LeetTranslator.Core.Models;
+using RegisterViewModel = LeetTranslator.Core.Models.RegisterViewModel;
 
 namespace LeetTranslator.Controllers
 {

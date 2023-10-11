@@ -2,7 +2,6 @@
     ViewData["Title"] = "Leet Translator";
 }
 
-
 <div class="modal fade" id="addTranslationModal" tabindex="-1" role="dialog" aria-labelledby="addTranslationModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -17,7 +16,6 @@
                     <div class="form-group">
                         <label for="translationType">Translation Type</label>
                         <select class="dropdown-item" id="translationType"></select>
-                        
                     </div>
                     <div class="form-group">
                         <label for="originalText">Original Text</label>
@@ -32,24 +30,19 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-primary" id="translateButton">Translate</button>
                 <button type="button" class="btn btn-success" id="saveTranslationButton" disabled>Save</button>
-
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
             </div>
         </div>
     </div>
 </div>
-<!-- The Modal -->
+
 <div class="modal" id="translationTypeModal">
     <div class="modal-dialog">
         <div class="modal-content">
-
-            <!-- Modal Header -->
             <div class="modal-header">
                 <h4 class="modal-title">Add Translation Type</h4>
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
             </div>
-
-            <!-- Modal Body -->
             <div class="modal-body">
                 <form id="translationTypeForm">
                     <div class="form-group">
@@ -70,53 +63,51 @@
                     </div>
                 </form>
             </div>
-
-            <!-- Modal Footer -->
             <div class="modal-footer">
                 <button type="button" class="btn btn-primary" id="saveTranslationTypeButton">Save</button>
                 <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
             </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="viewDetailsModal" tabindex="-1" role="dialog" aria-labelledby="viewDetailsModalLabel" aria-hidden="true">
+    <div class="modal-dialog  modal-lg" role="document">
+        <div class="modal-content">
 
+            <div class="modal-body">
+                <div id="detailsContent"></div>
+            </div>
         </div>
     </div>
 </div>
 
-@if ( User.Identity.IsAuthenticated )
+@if (User.Identity.IsAuthenticated)
 {
     <div id="translationDataSection">
         <table id="translationsTable" class="table" style="width:100%">
             <thead>
                 <tr>
-                    <th>Date</th>
-                    <th>First Name</th>
-                    <th>Last Name</th>
                     <th>Type</th>
                     <th>Original Text</th>
+                    <th>Translated Text</th>
                     <th>Translated Text</th>
                 </tr>
             </thead>
         </table>
     </div>
-
-
 }
 else
 {
     <div class="alert alert-success">
-    <p>
-        Leet Translator project for AFS .NET Developer Test. it hasData table  for records with search and filter options as it is required,
-        it Use Ajax and JQuery and stored procedures to select ans save data in database
-    </p>
-    <p>Please <a asp-controller="Home" asp-action="Login">login</a> or <a asp-controller="Home" asp-action="Register">register</a> to access the Leet translator.</p>
-</div>
+        <p>Leet Translator project for AFS .NET Developer Test. it hasData table for records with search and filter options as it is required, it Use Ajax and JQuery and stored procedures to select ans save data in the database</p>
+        <p>Please <a asp-controller="Home" asp-action="Login">login</a> or <a asp-controller="Home" asp-action="Register">register</a> to access the Leet translator.</p>
+    </div>
 }
 
 @section Scripts {
     <script type="text/javascript">
-        // Global variable to store the selected translation type
         var selectedTranslationType = 1;
         $(document).ready(function () {
-
             populateTranslationTypes();
             $('#translationsTable').DataTable({
                 "ajax": {
@@ -126,38 +117,109 @@ else
                     "dataSrc": "listOfTranslations"
                 },
                 "columns": [
-                    {
-                        "data": "date",
-                        "name": "Date",
-                        "title": "Date",
-                        "render": function (data) {
-                            var date = new Date(data);
-                            var monthNames = [
-                                "January", "February", "March", "April", "May", "June",
-                                "July", "August", "September", "October", "November", "December"
-                            ];
-                            return date.getDate() + ' ' + monthNames[date.getMonth()] + ' ' + date.getFullYear();
-                        }
-
-                    },
-                    { "data": "firstName", "name": "FirstName", "title": "First Name" },
-                    { "data": "lastName", "name": "LastName", "title": "Last Name" },
+                    
                     { "data": "typeName", "name": "TypeName", "title": "Type" },
-                    { "data": "originalText", "name": "OriginalText", "title": "Original Text" },
-                    { "data": "translatedText", "name": "TranslatedText", "title": "Translated Text" }
+                    {
+                        "data": "originalText",
+                        "name": "OriginalText",
+                        "title": "Original Text",
+                        "render": function (data, type, row, meta) {
+                            // Trim the text to a specific length (e.g., 50 characters) and add ellipsis
+                            if (data.length > 50) {
+                                return data.substr(0, 50) + '...';
+                            } else {
+                                return data;
+                            }
+                        }
+                    },
+                    {
+                        "data": "translatedText",
+                        "name": "TranslatedText",
+                        "title": "Translated Text",
+                        "render": function (data, type, row, meta) {
+                            // Trim the text to a specific length (e.g., 50 characters) and add ellipsis
+                            if (data.length > 50) {
+                                return data.substr(0, 100) + '...';
+                            } else {
+                                return data;
+                            }
+                        }
+                    },
+                    {
+                        "data": null,
+                        "render": function (data, type, full, meta) {
+                            return `
+                            <div class="btn-group" role="group">
+                                <button type="button" class="btn btn-danger btn-sm delete-button" data-id="${data.translationId}"><i class="fa fa-trash"></i></button>
+                                <button type="button" class="btn btn-info btn-sm view-button" data-id="${data.translationId}"><i class="fa fa-eye"></i></button>
+                            </div>
+                        `;
+                        },
+                        "title": "Actions"
+                    }
                 ]
+
             });
 
-            // Add custom button to the header
+            $('#translationsTable').on('click', '.delete-button', function () {
+                var data = $('#translationsTable').DataTable().row($(this).parents('tr')).data();
+                console.log('Row Data:', data);
+                console.log('Delete button clicked for ID:', data.translationId);
+            });
+
+            // Handle view button click event
+            $('#translationsTable').on('click', '.view-button', function () {
+                var data = $('#translationsTable').DataTable().row($(this).parents('tr')).data();
+
+                // Populate modal content with data
+                var modalContent = `
+            <div class="modal-header">
+                <h5 class="modal-title" id="viewDetailsModalLabel">Translation To ${data.typeName}</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12" style="background-color: white; padding: 10px;">
+                        <h6>Original Text:</h6>
+                        <p>${data.originalText}</p>
+                    </div>
+                    <div class="col-md-12" style="background-color: #f0f0f0; padding: 10px;">
+                        <h6>Translated Text:</h6>
+                        <p>${data.translatedText}</p>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <p class="mb-0">Translated by: ${data.firstName} ${data.lastName}</p>
+                <p class="mb-0">Date: ${data.date}</p> <!-- Assuming date property exists in your data object -->
+            </div>
+        `;
+
+                // Set the modal content
+                $('.modal-content').html(modalContent);
+
+
+
+
+                // Set modal content
+                $('#detailsContent').html(modalContent);
+
+                // Show the modal
+                $('#viewDetailsModal').modal('show');
+            });
+
+
+
             $("#translationsTable_wrapper .dataTables_filter")
-            .append('<button type="button" class="btn btn-primary" id="addTranslationButton">Add Translation</button>');
+                .append('<button type="button" class="btn btn-primary" id="addTranslationButton">Add Translation</button>');
 
             $("#addTranslationButton").css({
-                "margin": "10px",  // adjust this value as needed
-                "padding": "5px 15px"  // adjust these values as needed
+                "margin": "10px",
+                "padding": "5px 15px"
             });
 
-            // Handle button click event
             $(document).on('click', '#customButton', function () {
                 alert('Button clicked!');
             });
@@ -170,7 +232,7 @@ else
                 };
 
                 $.ajax({
-                    url: "/Home/SaveTranslationType", // Your API endpoint
+                    url: "/Home/SaveTranslationType",
                     method: "POST",
                     data: formData,
                     success: function (response) {
@@ -212,7 +274,6 @@ else
             $('#saveTranslationButton').click(function () {
                 handleSaveTranslation();
             });
-
         });
 
         function handleTranslationRequest() {
@@ -260,43 +321,32 @@ else
         function handleCloseActions() {
             $('#originalText').val('');
             $('#TranslatedText').val('');
-            $('#translationType').val('');  // If there's a default value for this dropdown, set it here
+            $('#translationType').val('');
             $('#saveTranslationButton').prop('disabled', true);
         }
 
-        // Handle saving the translation
         function handleSaveTranslation() {
-            // Prepare the data
             var formData1 = {
                 OriginalText: $('#originalText').val(),
                 TranslatedText: $('#TranslatedText').val(),
                 TranslationTypeId: $('#translationType').val()
             };
             var formData = $('#addTranslationForm').serialize();
-            console.log("formData:", formData);
-            console.log("formData1:", formData1);
 
-            // 1. AJAX Request
             $.ajax({
                 url: "/Home/SaveTranslation",
                 method: "POST",
                 data: formData1,
                 success: function (response) {
-                    // 2. Handle Server Response
                     if (response.success) {
                         alert('Successfully saved!');
-
-                        // Refresh the translations table
                         $('#translationsTable').DataTable().ajax.reload();
-
-                        // Close the modal and reset form values
                         $('#addTranslationModal').modal('hide');
                         $('#originalText').val('');
                         $('#TranslatedText').val('');
                     } else {
                         var errorMessage = response.message;
 
-                        // If there are model validation errors, append them to the error message
                         if (response.errors) {
                             errorMessage += "\n";
                             $.each(response.errors, function (key, value) {
@@ -308,15 +358,11 @@ else
                     }
                 },
                 error: function () {
-                    // 3. Handle AJAX Errors
                     alert('Error saving the translation. Please try again.');
                 }
             });
         }
 
-
-
-        // Function to populate translation types in the dropdown
         function populateTranslationTypes() {
             $.get("/Home/GetAll", function (data) {
                 var $dropdown = $("#translationType");
@@ -328,11 +374,8 @@ else
                     }
                 });
 
-                // Initialize selectedTranslationType after populating dropdown
                 selectedTranslationType = $("#translationType").val();
             });
         }
-
-
     </script>
 }
